@@ -1,8 +1,7 @@
-version: '3.9'
+version: "3.9"
 
 # Common Django template for GeoNode and Celery services below
-x-common-django:
-  &default-common-django
+x-common-django: &default-common-django
   image: geonode/geonode:latest-ubuntu-22.10
   restart: on-failure
   env_file:
@@ -21,10 +20,9 @@ x-common-django:
       condition: service_healthy
 
 services:
-
   # Our custom django application. It includes Geonode.
   django:
-    << : *default-common-django
+    <<: *default-common-django
     container_name: django4${COMPOSE_PROJECT_NAME}
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
@@ -39,7 +37,7 @@ services:
 
   # Celery worker that executes celery tasks created by Django.
   celery:
-    << : *default-common-django
+    <<: *default-common-django
     container_name: celery4${COMPOSE_PROJECT_NAME}
     depends_on:
       - django
@@ -47,6 +45,32 @@ services:
       - IS_CELERY=True
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "celery-cmd"
+
+  landingpage:
+    image: geonode/landingpage
+    build: ./scripts/docker/landingpage/
+    container_name: landingpage4
+    ports:
+      - "666:666"
+    volumes:
+      - landingpage:/landingpage
+
+  rshiny:
+    image: geonode/rshiny
+    build:
+      context: ./scripts/docker/Rshiny/
+      secrets:
+        - token
+    secrets:
+      - token
+    container_name: rshiny
+    ports:
+      - "7777:7777"
+    volumes:
+      - rshiny:/mockup
+    entrypoint: /bin/sh
+    stdin_open: true
+    tty: true
 
   # Nginx is serving django static and media files and proxies to django and geonode
   geonode:
@@ -165,3 +189,11 @@ volumes:
     name: ${COMPOSE_PROJECT_NAME}-tmp
   rabbitmq:
     name: ${COMPOSE_PROJECT_NAME}-rabbitmq
+  landingpage:
+    name: ${COMPOSE_PROJECT_NAME}-landingpage
+  rshiny:
+    name: ${COMPOSE_PROJECT_NAME}-rshiny
+
+secrets:
+  token:
+    file: ./GH_TOKEN
