@@ -26,6 +26,14 @@ http {
         server_name         $HTTP_HOST 127.0.0.1 geonode;
 
         include sites-enabled/*.conf;
+
+        location /rshiny {
+            proxy_pass      http://127.0.0.1:7777;
+        }
+
+        location /landingpage {
+            proxy_pass      http://127.0.0.1:666;
+        }
     }
 
     # Default server closes the connection (we can connect only using HTTP_HOST and HTTPS_HOST)

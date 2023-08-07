@@ -268,6 +268,6 @@ server <- function(input, output, session) {
   ### END Tab 3 plot B logic
 }
 
-options(shiny.host = 10.0.1.5)
+#options(shiny.host = 10.0.1.5)
 options(shiny.port = 7777)
 runApp(shinyApp(ui, server))

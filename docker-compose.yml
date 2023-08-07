@@ -68,9 +68,6 @@ services:
       - "7777:7777"
     volumes:
       - rshiny:/mockup
-    entrypoint: /bin/sh
-    stdin_open: true
-    tty: true
 
   # Nginx is serving django static and media files and proxies to django and geonode
   geonode:
