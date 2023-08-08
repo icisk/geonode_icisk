@@ -8,6 +8,11 @@ events {
 }
 
 http {
+
+    map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+    }
     server_names_hash_bucket_size  64;
 
     # Allow Nginx to resolve Docker host names (see https://sandro-keil.de/blog/2017/07/24/let-nginx-start-if-upstream-host-is-unavailable-or-down/)
@@ -27,13 +32,6 @@ http {
 
         include sites-enabled/*.conf;
 
-        location /rshiny {
-            proxy_pass      http://127.0.0.1:7777;
-        }
-
-        location /landingpage {
-            proxy_pass      http://127.0.0.1:666;
-        }
     }
 
     # Default server closes the connection (we can connect only using HTTP_HOST and HTTPS_HOST)
