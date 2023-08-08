@@ -8,3 +8,12 @@ docker compose up -d
 ```
 
 go http://localhost
+
+what do after new push to rshiny app
+stop all dockers
+
+```
+docker volume rm geonode-rshiny
+docker compose build rshiny --no-cache
+docker compose up -d
+```
