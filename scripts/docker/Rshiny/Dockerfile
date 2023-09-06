@@ -11,7 +11,7 @@ RUN apt-get install -y git
 #RUN ls -la /run/
 
 
-RUN --mount=type=secret,id=token token="$(cat /run/secrets/token)" \
+ RUN --mount=type=secret,id=token token="$(cat /run/secrets/token)" \
  && git clone "https://${token}@github.com/icisk/csmockups.git" /mockup
 
 RUN R -q -e "install.packages(c('shiny', 'shinythemes', 'leaflet', 'sf', 'ggplot2', 'dplyr', 'lubridate', 'rnaturalearth', 'rnaturalearthdata', 'ggrepel', 'meteospain', 'sf'))" 
