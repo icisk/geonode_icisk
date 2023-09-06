@@ -1,0 +1,41 @@
+body {
+  background-color: darkslategray;
+}
+
+h1 {
+  color: darkorange;
+}
+
+.text {
+  color: sandybrown;
+}
+
+#gn_button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: lightblue;
+  padding: 1px;
+  width: auto;
+  transform: translate(-100%, 0); /* Move div to top right */
+}
+
+#ll_header {
+  font-size: large;
+  text-align: center;
+  padding-top: 20px;
+  color: darkorange;
+}
+
+#ll_links {
+  overflow: hidden;
+}
+
+#ll_picture {
+  float: left;
+  width: 50%;
+}
+#ll_ressources {
+  float: right;
+  width: 50%;
+}

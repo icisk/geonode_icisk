@@ -16,9 +16,10 @@ RUN --mount=type=secret,id=token token="$(cat /run/secrets/token)" \
 
 RUN R -q -e "install.packages(c('shiny', 'shinythemes', 'leaflet', 'sf', 'ggplot2', 'dplyr', 'lubridate', 'rnaturalearth', 'rnaturalearthdata', 'ggrepel', 'meteospain', 'sf'))" 
 
-WORKDIR /mockup
+WORKDIR /mockup/LL1_Spain/RShinyApp
 RUN git pull
-ADD ./data ./LL1_Spain/RShinyApp/data
+ADD ./data ./data
 #ADD ./app.R ./
 
-CMD "Rscript" "./LL1_Spain/RShinyApp/app.R"
+CMD "Rscript" "./app.R"
+#CMD "sleep" "1d"

@@ -49,7 +49,7 @@ location /geoserver {
 }
 
 #Rshiny
-    #rewrite ^/rshiny$ $scheme://$http_host/rshiny/ permanent;
+    # rewrite ^/rshiny$ $scheme://$http_host/rshiny/ permanent;
     location /rshiny/ {
         set $upstream rshiny:7777;
         rewrite ^/rshiny/(.*)$ /$1 break;
@@ -62,19 +62,18 @@ location /geoserver {
     }
 
 
-#Rshiny
-location /landingpage {
-        # Using a variable is a trick to let Nginx start even if upstream host is not up yet
-    # (see https://sandro-keil.de/blog/2017/07/24/let-nginx-start-if-upstream-host-is-unavailable-or-down/)
-    set $upstream landingpage:666;
-
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-
-    proxy_pass http://$upstream;
-}
+#landingpage
+    #rewrite ^/landingpage$ $scheme://$http_host/landingpage/ permanent;
+    location /landingpage/ {
+        set $upstream landingpage:666;
+        rewrite ^/landingpage/(.*)$ /$1 break;
+        proxy_pass http://$upstream;
+        proxy_redirect / $scheme://$http_host/landingpage/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_buffering off;
+    }
 # Jenkins
 location /jenkins {
 
