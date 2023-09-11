@@ -4,7 +4,7 @@ RUN npm install -g http-server
 
 WORKDIR /landingpage/
 
-ADD hello.html ./index.html
+ADD index.html ./index.html
 ADD style.css ./style.css
 
 EXPOSE 666
