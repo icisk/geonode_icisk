@@ -1,6 +1,7 @@
 - clone this repository
 - get github token
 - save it as GH_TOKEN in root directory
+- change PATH_TO_MOCKUPS path in .env file
 - add spain data (gpkg files 1999 to 2022) to /scripts/docker/Rshiny/data (you can find it on the fileserver)
 - execute the following docker commands:
 
