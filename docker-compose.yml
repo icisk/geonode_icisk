@@ -53,22 +53,21 @@ services:
     ports:
       - "666:666"
     volumes:
-    - ./scripts/docker/landingpage/:/landingpage/
+      - ./scripts/docker/landingpage/:/landingpage/
 
   rshiny:
     image: geonode/rshiny
-    build:
-      context: ./scripts/docker/Rshiny/
-      secrets:
-        - token
+    build: ./scripts/docker/Rshiny/
     secrets:
       - token
+    depends_on:
+      geoserver:
+        condition: service_healthy
     container_name: rshiny
     ports:
       - "7777:7777"
     volumes:
       - ${PATH_TO_MOCKUPS}LL1_Spain/RShinyApp:/mockup/LL1_Spain/RShinyApp
-
 
     # Nginx is serving django static and media files and proxies to django and geonode
   geonode:
