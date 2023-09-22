@@ -2,21 +2,21 @@ FROM rocker/shiny
 
 RUN apt-get update \
  && apt-get install -y \
-      make \
-      zlib1g-dev \
-      libpng-dev \
-      libicu-dev \
-      pandoc \
-      libgdal-dev \
       gdal-bin \
+      libcurl4-openssl-dev \
+      libgdal-dev \
       libgeos-dev \
+      libicu-dev \
+      libpng-dev \
       libproj-dev \
       libsqlite3-dev \
-      libudunits2-dev \
       libssl-dev \
-      libcurl4-openssl-dev \
+      libudunits2-dev \
       libxml2-dev \
- && rm -vf /var/lib/apt/lists/* 
+      make \
+      pandoc \
+      zlib1g-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 #RUN apt-get install -y git
 #RUN ls -la /run/
@@ -24,10 +24,21 @@ RUN apt-get update \
 # && git clone "https://${token}@github.com/icisk/csmockups.git" /mockup
 
 RUN R -q -e "install.packages(c(\
-  'shiny', \
-  'shinythemes', \
-  'leaflet', \
-  'ggplot2', 'dplyr', 'lubridate', 'rnaturalearth', 'rnaturalearthdata', 'ggrepel', 'meteospain', 'sf', 'sfheaders', 'curl', 'jsonlite'))" 
+  'curl',\
+  'dplyr',\
+  'ggplot2',\
+  'ggrepel',\
+  'jsonlite',\
+  'leaflet',\
+  'lubridate',\
+  'meteospain',\
+  'rnaturalearth',\
+  'rnaturalearthdata',\
+  'sf',\
+  'sfheaders',\
+  'shiny',\
+  'shinythemes'\
+  ))"
 
 WORKDIR /mockup/LL1_Spain/RShinyApp
 #RUN git pull
